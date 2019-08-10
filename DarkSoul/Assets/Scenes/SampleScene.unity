@@ -191,13 +191,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 92236853}
-  m_LocalRotation: {x: -0.14085165, y: -0, z: -0, w: 0.9900307}
-  m_LocalPosition: {x: -0.26104212, y: 0.17, z: 2.085}
+  m_LocalRotation: {x: -0.18883847, y: 0, z: 0, w: 0.98200816}
+  m_LocalPosition: {x: -0.26104212, y: 0.17, z: 5.95}
   m_LocalScale: {x: 5.0493383, y: 0.38306767, z: 5.1984553}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: -16.194, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -21.77, y: 0, z: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 1607558428}
   walkSpeed: 1.4
+  runSpeed: 2.8
 --- !u!54 &191283354
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -348,14 +349,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb6ef90d67268c44a3f76730a7232d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyUp: w
-  keyDown: s
-  keyLeft: a
-  keyRight: d
+  keyUp: 119
+  keyDown: 115
+  keyLeft: 97
+  keyRight: 100
+  keyA: 304
+  keyB: 32
+  keyC: 0
+  keyD: 0
   Dup: 0
   Dright: 0
   Dmagnitude: 0
   Ddirection: {x: 0, y: 0, z: 0}
+  run: 0
+  jump: 0
   inputEnable: 1
 --- !u!1 &282840810
 GameObject:
@@ -423,8 +430,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.3824385, y: -0.27672932, z: 0.12120113, w: -0.8731964}
+  m_LocalPosition: {x: -3.702733, y: 6.290234, z: -5.715877}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
