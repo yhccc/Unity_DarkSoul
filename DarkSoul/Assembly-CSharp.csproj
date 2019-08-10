@@ -59,9 +59,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FSMClearSignals.cs" />
     <Compile Include="Assets\Scripts\ActorController.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSMClearSignals.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSMOnEnter.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSMOnExit.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSMOnUpdate.cs" />
+    <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Sensors\OnGroudSensor.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/vrtest/Desktop/Unity_DarkSoul/DarkSoul/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

@@ -9,19 +9,29 @@ public class PlayerInput : MonoBehaviour {
 
     //Variable
     [Header("----- Input Key Settings -----")]
+    //控制人物移动
     public KeyCode keyUp = KeyCode.W;
     public KeyCode keyDown = KeyCode.S;
     public KeyCode keyLeft = KeyCode.A;
     public KeyCode keyRight = KeyCode.D;
            
+    //控制视野旋转
+    public KeyCode keyJUp = KeyCode.UpArrow;
+    public KeyCode keyJDown = KeyCode.DownArrow;
+    public KeyCode keyJLeft = KeyCode.LeftArrow;
+    public KeyCode keyJRight = KeyCode.RightArrow;
+
     public KeyCode keyA = KeyCode.LeftShift;//对应跑步
     public KeyCode keyB = KeyCode.Space;//对应跳跃
     public KeyCode keyC;
     public KeyCode keyD;
 
+
     [Header("----- Output Signals -----")]
     public float Dup;
     public float Dright;
+    public float Jup;
+    public float Jright;
     public float Dmagnitude;
     public Vector3 Ddirection;
 
@@ -48,9 +58,11 @@ public class PlayerInput : MonoBehaviour {
         //将wasd的按下转为（-1，1）间的一个信号
         targetDup = (Input.GetKey(keyUp) ? 1.0f : 0.0f) - (Input.GetKey(keyDown) ? 1.0f : 0.0f);
         targetDright = (Input.GetKey(keyRight) ? 1.0f : 0.0f) - (Input.GetKey(keyLeft) ? 1.0f : 0.0f);
-        
+        Jup= (Input.GetKey(keyJUp) ? 1.0f : 0.0f) - (Input.GetKey(keyJDown) ? 1.0f : 0.0f);
+        Jright = (Input.GetKey(keyJRight) ? 1.0f : 0.0f) - (Input.GetKey(keyJLeft) ? 1.0f : 0.0f);
+
         //该脚本是否开启
-        if(!inputEnable)
+        if (!inputEnable)
         {
             targetDup = 0;
             targetDright = 0;
