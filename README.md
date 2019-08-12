@@ -1,17 +1,12 @@
----
-
-typora-root-url: Image
----
-
 # Unity_DarkSoul
 
 #### Attack && Defense
 
-![Attack&&Defense Animator Layer](/3.png)
+![Attack&&Defense Animator Layer](Image/3.png)
 
-![Attack Layer Setting](/7.png)
+![Attack Layer Setting](Image/7.png)
 
-![Defense Layer Setting](/6.png)
+![Defense Layer Setting](Image/6.png)
 
 
 
@@ -19,9 +14,9 @@ Attack的AvatarMask为fullBody，权重直接设置影响Base Layer动画播放�
 
 Defense权重AvatarMask为leftHand，权重直接设为1，不影响其他层动画播放
 
-![Attack FSM](/4.png)
+![Attack FSM](Image/4.png)
 
-![Defense FSM](/5.png)
+![Defense FSM](Image/5.png)
 
 #### Abstract Input Class
 
@@ -261,7 +256,7 @@ public class MyButton {
 
 ```
 
-![Button状态图示](/1.png)
+![Button状态图示](Image/1.png)
 
 修改：Jab、Roll、Run、Jump方式（一键控制）
 
@@ -289,6 +284,6 @@ private void Update()
 ```
 动画状态机如下：
 
-![Animation State Machine](/2.png)
+![Animation State Machine](Image/2.png)
 
 若没有速度，进入roll状态，播放jad动画，若有速度，进入roll状态，播放roll动画
