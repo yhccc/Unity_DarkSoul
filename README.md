@@ -4,8 +4,6 @@
 
 **Target：**WASD控制角色的Walk移动，按住LeftShift转变为Run
 
-<!--more-->
-
 ------
 
 #### Player Jump & Roll & Jad（后跳）
