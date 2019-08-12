@@ -1,5 +1,23 @@
 # Unity_DarkSoul
 
+#### Player Move
+
+**Target：**WASD控制角色的Walk移动，按住LeftShift转变为Run
+
+------
+
+#### Player Jump & Roll & Jad（后跳）
+
+**Target：**角色Idle时按Space实现Jad，Walk时按下Space实现Roll，Run时按下Space实现Jump+Roll
+
+------
+
+#### Camera Rotate
+
+**Target：**↑↓←→控制相机的视野转换，使用Lerp或SmoothDamp令相机缓慢跟随
+
+------
+
 #### Attack && Defense
 
 ![Attack&&Defense Animator Layer](Image/3.png)
@@ -17,6 +35,8 @@ Defense权重AvatarMask为leftHand，权重直接设为1，不影响其他层动
 ![Attack FSM](Image/4.png)
 
 ![Defense FSM](Image/5.png)
+
+------
 
 #### Abstract Input Class
 
@@ -141,7 +161,7 @@ public abstract class AbstractInput : MonoBehaviour
 }
 ```
 
-
+------
 
 #### Timer Class
 
@@ -189,7 +209,7 @@ public class MyTimer {
 
 ```
 
-
+------
 
 #### Button Class
 
