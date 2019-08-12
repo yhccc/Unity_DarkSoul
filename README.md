@@ -7,7 +7,7 @@ typora-root-url: Image
 
 #### Attack && Defense
 
-![Attack&&Defense Animator Layer](/3.png)
+![Attack&&Defense Animator Layer](Image/3.png)
 
 ![Attack Layer Setting](/7.png)
 
