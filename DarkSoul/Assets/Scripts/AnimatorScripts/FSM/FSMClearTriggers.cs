@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSMClearSignals : StateMachineBehaviour {
+public class FSMClearTriggers : StateMachineBehaviour {
 
     public string[] clearAtEnter;
     public string[] clearAtExit;
@@ -11,9 +11,9 @@ public class FSMClearSignals : StateMachineBehaviour {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //进入该动画时需要清空的trigger
-        foreach (var signal in clearAtEnter)
+        foreach (var trigger in clearAtEnter)
         {
-            animator.ResetTrigger(signal);
+            animator.ResetTrigger(trigger);
         }
     }
 
@@ -26,9 +26,9 @@ public class FSMClearSignals : StateMachineBehaviour {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //退出该动画时需要清空的trigger
-        foreach (var signal in clearAtExit)
+        foreach (var trigger in clearAtExit)
         {
-            animator.ResetTrigger(signal);
+            animator.ResetTrigger(trigger);
         }
     }
 

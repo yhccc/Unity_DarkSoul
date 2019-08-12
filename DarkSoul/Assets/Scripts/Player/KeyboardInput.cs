@@ -5,8 +5,8 @@ using UnityEngine;
 /// <summary>
 /// 
 /// </summary>
-public class PlayerInput : MonoBehaviour {
-
+public class KeyboardInput : AbstractInput
+{
     //Variable
     [Header("----- Input Key Settings -----")]
     //控制人物移动
@@ -21,45 +21,27 @@ public class PlayerInput : MonoBehaviour {
     public KeyCode keyJLeft = KeyCode.LeftArrow;
     public KeyCode keyJRight = KeyCode.RightArrow;
 
-    public KeyCode keyA = KeyCode.LeftShift;//对应跑步
-    public KeyCode keyB = KeyCode.Space;//对应跳跃
-    public KeyCode keyC;
-    public KeyCode keyD;
 
+    [Header("----- Input Mouse Settings -----")]
+    public bool mouseEnable = false;
+    public float mouseSensitivityX = 0.8f;
+    public float mouseSensitivityY = 1.5f;
 
-    [Header("----- Output Signals -----")]
-    public float Dup;
-    public float Dright;
-    public float Jup;
-    public float Jright;
-    public float Dmagnitude;
-    public Vector3 Ddirection;
-
-    //1.pressing signal
-    public bool run;//是否跑步
-    //2.trigger once signal
-    public bool jump;
-    //3.double trigger
-
-    [Header("----- Component Activate -----")]
-    public bool inputEnable = true;
-
-    private float targetDup;
-    private float targetDright;
-
-    private float velocityDup;
-    private float velocityDright;
-
-    private Vector2 tempDAxis;
-    private float tempDup;
-    private float tempDright;
     private void Update()
     {
         //将wasd的按下转为（-1，1）间的一个信号
         targetDup = (Input.GetKey(keyUp) ? 1.0f : 0.0f) - (Input.GetKey(keyDown) ? 1.0f : 0.0f);
         targetDright = (Input.GetKey(keyRight) ? 1.0f : 0.0f) - (Input.GetKey(keyLeft) ? 1.0f : 0.0f);
-        Jup= (Input.GetKey(keyJUp) ? 1.0f : 0.0f) - (Input.GetKey(keyJDown) ? 1.0f : 0.0f);
-        Jright = (Input.GetKey(keyJRight) ? 1.0f : 0.0f) - (Input.GetKey(keyJLeft) ? 1.0f : 0.0f);
+        if (!mouseEnable)
+        {
+            Jup = (Input.GetKey(keyJUp) ? 1.0f : 0.0f) - (Input.GetKey(keyJDown) ? 1.0f : 0.0f);
+            Jright = (Input.GetKey(keyJRight) ? 1.0f : 0.0f) - (Input.GetKey(keyJLeft) ? 1.0f : 0.0f);
+        }
+        else
+        {
+            Jup = Input.GetAxis("Mouse Y") * mouseSensitivityY;
+            Jright = Input.GetAxis("Mouse X") * mouseSensitivityX;
+        }
 
         //该脚本是否开启
         if (!inputEnable)
@@ -83,20 +65,6 @@ public class PlayerInput : MonoBehaviour {
         //计算前进的方向
         Ddirection = tempDright * transform.right + tempDup * transform.forward;
 
-        run = Input.GetKey(keyA);
-        jump = Input.GetKeyDown(keyB);
-    }
-
-    /// <summary>
-    /// 将输入的方形坐标转成球形坐标
-    /// 解决Bug：斜向移动时playerInput.Dmagnitude最大为根号2,直行时playerInput.Dmagnitude最大为1,造成移动速度不一致
-    /// </summary>
-    /// <param name="input">输入坐标</param>
-    /// <returns>输出坐标</returns>
-    private Vector2 SquareToCircle(Vector2 input)
-    {
-        Vector2 output = new Vector2(input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f),
-            input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f));
-        return output;
+        ButtonControl();
     }
 }

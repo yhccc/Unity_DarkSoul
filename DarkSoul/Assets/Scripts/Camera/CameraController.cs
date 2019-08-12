@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour {
 
     private GameObject playerHandle;
     private GameObject cameraHandle;
-    private PlayerInput playerInput;
+    private AbstractInput playerInput;
     private GameObject model;
     new private Camera camera;
 
@@ -24,11 +24,20 @@ public class CameraController : MonoBehaviour {
     {
         cameraHandle = transform.parent.gameObject;
         playerHandle = cameraHandle.transform.parent.gameObject;
-        playerInput = playerHandle.GetComponent<PlayerInput>();
+        AbstractInput[] inputs = playerHandle.GetComponents<AbstractInput>();
+        foreach (var input in inputs)
+        {
+            if (input.enabled)
+            {
+                playerInput = input;
+                break;
+            }
+        }
         model = playerInput.GetComponent<ActorController>().model;
         camera = Camera.main;
         tempEulerX = camera.transform.localEulerAngles.x;
 
+        Cursor.lockState = CursorLockMode.Locked;//运行时鼠标隐藏
     }
 
     private void FixedUpdate()
@@ -54,7 +63,8 @@ public class CameraController : MonoBehaviour {
         //相机SmoothDamp跟随
         camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, 0.2f);
 
-        camera.transform.eulerAngles = transform.eulerAngles;
+        //camera.transform.eulerAngles = transform.eulerAngles;
+        camera.transform.LookAt(cameraHandle.transform);
     }
 
 }

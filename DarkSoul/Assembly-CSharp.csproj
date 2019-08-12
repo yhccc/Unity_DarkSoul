@@ -59,14 +59,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ActorController.cs" />
-    <Compile Include="Assets\Scripts\AnimatorScripts\FSMClearSignals.cs" />
-    <Compile Include="Assets\Scripts\AnimatorScripts\FSMOnEnter.cs" />
-    <Compile Include="Assets\Scripts\AnimatorScripts\FSMOnExit.cs" />
-    <Compile Include="Assets\Scripts\AnimatorScripts\FSMOnUpdate.cs" />
-    <Compile Include="Assets\Scripts\CameraController.cs" />
-    <Compile Include="Assets\Scripts\PlayerInput.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\Controller\AnimTriggerController.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\Controller\RootMotionController.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSM\FSMClearTriggers.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSM\FSMOnEnter.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSM\FSMOnExit.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\FSM\FSMOnUpdate.cs" />
+    <Compile Include="Assets\Scripts\AnimatorScripts\LeftArmAnimFix.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Player\AbstractInput.cs" />
+    <Compile Include="Assets\Scripts\Player\ActorController.cs" />
+    <Compile Include="Assets\Scripts\Player\JoystickInput.cs" />
+    <Compile Include="Assets\Scripts\Player\KeyboardInput.cs" />
     <Compile Include="Assets\Scripts\Sensors\OnGroudSensor.cs" />
+    <Compile Include="Assets\Scripts\Tools\MyButton.cs" />
+    <Compile Include="Assets\Scripts\Tools\MyTimer.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/vrtest/Desktop/Unity_DarkSoul/DarkSoul/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
