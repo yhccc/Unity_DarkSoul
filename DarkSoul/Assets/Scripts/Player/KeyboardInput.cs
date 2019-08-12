@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class KeyboardInput : AbstractInput
 {
-    //Variable
+    //键鼠输入
     [Header("----- Input Key Settings -----")]
     //控制人物移动
     public KeyCode keyUp = KeyCode.W;
@@ -43,28 +43,13 @@ public class KeyboardInput : AbstractInput
             Jright = Input.GetAxis("Mouse X") * mouseSensitivityX;
         }
 
-        //该脚本是否开启
-        if (!inputEnable)
-        {
-            targetDup = 0;
-            targetDright = 0;
-        }
+        //判断组件是否可用
+        ComponentIsActivate();
 
-        //根据wasd按下的程度设置值（存在过渡过程）
-        Dup = Mathf.SmoothDamp(Dup, targetDup, ref velocityDup, 0.1f);
-        Dright = Mathf.SmoothDamp(Dright, targetDright, ref velocityDright, 0.1f);
-        //解决Bug：斜向移动时playerInput.Dmagnitude最大为根号2,直行时playerInput.Dmagnitude最大为1,造成移动速度不一致
-        tempDAxis = SquareToCircle(new Vector2(Dright, Dup));
-        tempDup = tempDAxis.y;
-        tempDright = tempDAxis.x;
+        //角色移动输入转输出
+        InputToOutput();
 
-        //计算到原点之间的距离（适用于摇杆）
-        //Bug：斜向移动时playerInput.Dmagnitude最大为根号2,直行时playerInput.Dmagnitude最大为1,造成移动速度不一致
-        //Dmagnitude = Mathf.Sqrt((Dup * Dup) + (Dright * Dright));
-        Dmagnitude = Mathf.Sqrt((tempDup * tempDup) + (tempDright * tempDright));
-        //计算前进的方向
-        Ddirection = tempDright * transform.right + tempDup * transform.forward;
-
+        //额外按钮控制方法
         ButtonControl();
     }
 }

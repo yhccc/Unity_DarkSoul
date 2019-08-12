@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// 
+/// 计时器类（配合Button类使用）
 /// </summary>
 public class MyTimer {
 

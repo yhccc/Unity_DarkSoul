@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/// <summary>
-/// 长按与双击实现
+﻿/// <summary>
+/// Button类（各种Button状态）
 /// </summary>
 public class MyButton {
     public bool isPressing = false;
