@@ -7,7 +7,7 @@ public abstract class AbstractInput : MonoBehaviour
 {
 
     [Header("----- Additional Button Setting -----")]//额外按键设置（可自定义）
-    public KeyCode keyA = KeyCode.LeftShift;
+    public KeyCode keyA = KeyCode.LeftShift;//对应lockOn模式
     public KeyCode keyB = KeyCode.Space;//对应跑步、跳跃、翻滚、后跳
     public KeyCode keyC = KeyCode.J;//对应攻击
     public KeyCode keyD = KeyCode.K;//对应举盾
@@ -32,6 +32,7 @@ public abstract class AbstractInput : MonoBehaviour
     //2.trigger once signal
     public bool attack;//攻击信号
     public bool roll;//翻滚信号
+    public bool lockOn;//锁定视角
     //3.double trigger
     public bool jump;//跳跃信号
 
@@ -72,11 +73,14 @@ public abstract class AbstractInput : MonoBehaviour
     protected void ButtonControl()
     {
         #region Button Controll
+        buttonA.Tick(Input.GetKey(keyA));
         buttonB.Tick(Input.GetKey(keyB));
 
         run = (buttonB.isPressing && !buttonB.isDelaying) || buttonB.isExtending;
         jump = buttonB.onPressed && buttonB.isExtending;
         roll = buttonB.isDelaying && buttonB.onReleased;
+
+        lockOn = buttonA.onPressed;
 
         attack = Input.GetKeyDown(keyC);
         defense = Input.GetKey(keyD);

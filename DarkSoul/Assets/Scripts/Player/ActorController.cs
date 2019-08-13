@@ -9,6 +9,7 @@ public class ActorController : MonoBehaviour
 {
 
     public GameObject model;
+    public CameraController cameraController;
     public float walkSpeed = 1.4f;//角色行走速度
     public float runSpeed = 2.8f;//角色奔跑速度=walkSpeed*runspeed
     public float jumpHeight = 3.0f;//角色跳跃高度
@@ -29,6 +30,7 @@ public class ActorController : MonoBehaviour
     private Vector3 movingVec;//角色移动向量
     private Vector3 thrustVec;//角色动画移动冲量向量
     private bool lockMovingVec;//是否锁死角色移动向量
+    private bool trackDirection;//lockOn模式下是否锁死角色移动向量
     private bool canAttack = false;//角色是否可以攻击
     private float lerpTarget;//lerp切换动画权重
     private Vector3 deltaPos;//动画Root Motion的移动量
@@ -38,7 +40,7 @@ public class ActorController : MonoBehaviour
         AbstractInput[] inputs = GetComponents<AbstractInput>();
         foreach (var input in inputs)
         {
-            if(input.enabled)
+            if (input.enabled)
             {
                 playerInput = input;
                 break;
@@ -54,9 +56,19 @@ public class ActorController : MonoBehaviour
     {
         //控制动画播放和角色转向
 
-        //动画播放
-        anim.SetFloat("forward", playerInput.Dmagnitude *
-            Mathf.Lerp(anim.GetFloat("forward"), playerInput.run ? 2.0f : 1.0f, 0.3f));//动画过渡效果
+        if (!cameraController.lockState)
+        {
+            //动画播放
+            anim.SetFloat("forward", playerInput.Dmagnitude *
+                Mathf.Lerp(anim.GetFloat("forward"), playerInput.run ? 2.0f : 1.0f, 0.3f));//动画过渡效果
+            anim.SetFloat("right", 0);
+        }
+        else 
+        {
+            Vector3 localDdirection = transform.InverseTransformDirection(playerInput.Ddirection);
+            anim.SetFloat("forward", localDdirection.z * (playerInput.run ? 2.0f : 1.0f));
+            anim.SetFloat("right", localDdirection.x * (playerInput.run ? 2.0f : 1.0f));
+        }
         anim.SetBool("defense", playerInput.defense);
         if (playerInput.jump)
             anim.SetTrigger("jump");//跳跃动画
@@ -65,21 +77,37 @@ public class ActorController : MonoBehaviour
             anim.SetTrigger("attack");//攻击动画
         if (playerInput.roll || rigid.velocity.magnitude > 5.0f)//下落速度高时
             anim.SetTrigger("roll");//翻滚动画
+        if (playerInput.lockOn)
+            cameraController.LockUnlock();
 
-        //防止停止按键后，Dup和Dright归0，forward被设置为0，转回原来方向
-        //角色转向
-        if (playerInput.Dmagnitude > 0.1f)
+        if (!cameraController.lockState)
         {
-            model.transform.forward =
-                Vector3.Slerp(model.transform.forward, playerInput.Ddirection, 0.3f);//转身过渡效果
+            //防止停止按键后，Dup和Dright归0，forward被设置为0，转回原来方向
+            //角色转向
+            if (playerInput.Dmagnitude > 0.1f)
+            {
+                model.transform.forward =
+                    Vector3.Slerp(model.transform.forward, playerInput.Ddirection, 0.3f);//转身过渡效果
+            }
+
+            if (!lockMovingVec)
+            {
+                //角色移动向量
+                movingVec = model.transform.forward * playerInput.Dmagnitude * walkSpeed
+                    * (playerInput.run ? runSpeed : 1.0f);//跑步为2，行走为1
+            }
+        }
+        else
+        {
+            if (!trackDirection)
+                model.transform.forward = transform.forward;
+            else
+                model.transform.forward = movingVec.normalized;
+
+            if (!lockMovingVec)
+                movingVec = playerInput.Ddirection * walkSpeed * (playerInput.run ? runSpeed : 1.0f);
         }
 
-        if (!lockMovingVec)
-        {
-            //角色移动向量
-            movingVec = (model.transform.forward * playerInput.Dmagnitude * walkSpeed)
-                * (playerInput.run ? runSpeed : 1.0f);//跑步为2，行走为1
-        }
     }
 
     private void FixedUpdate()
@@ -100,7 +128,7 @@ public class ActorController : MonoBehaviour
     /// <param name="stateName">要检查的动画名称</param>
     /// <param name="layerName">要检查的动画图层</param>
     /// <returns>是否正在播放</returns>
-    private bool CheckState(string stateName, string layerName="Base Layer")
+    private bool CheckState(string stateName, string layerName = "Base Layer")
     {
         //int layerIndex = anim.GetLayerIndex(layerName);
         //bool result = anim.GetCurrentAnimatorStateInfo(layerIndex).IsName(stateName);
@@ -118,6 +146,7 @@ public class ActorController : MonoBehaviour
         playerInput.inputEnable = false;
         lockMovingVec = true;
         canAttack = false;
+        trackDirection = true;
         thrustVec = new Vector3(0, jumpHeight, 0);
     }
     //public void OnJumpExit()
@@ -129,6 +158,7 @@ public class ActorController : MonoBehaviour
     {
         playerInput.inputEnable = true;
         lockMovingVec = false;
+        trackDirection = false;
         canAttack = true;
         capsuleCol.material = frictionOne;
     }
@@ -140,6 +170,7 @@ public class ActorController : MonoBehaviour
     {
         playerInput.inputEnable = false;
         lockMovingVec = true;
+        trackDirection = true;
     }
     public void OnRollEnter()
     {
@@ -156,7 +187,7 @@ public class ActorController : MonoBehaviour
     }
     public void OnJadUpdate()
     {
-        thrustVec = model.transform.forward * anim.GetFloat("jabDistance") ;
+        thrustVec = model.transform.forward * anim.GetFloat("jabDistance");
     }
     public void OnAttack1hAEnter()
     {
@@ -169,7 +200,7 @@ public class ActorController : MonoBehaviour
         //float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("Attack"));
         //currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.1f);
         //anim.SetLayerWeight(anim.GetLayerIndex("Attack"), currentWeight);
-        anim.SetLayerWeight(anim.GetLayerIndex("Attack"), 
+        anim.SetLayerWeight(anim.GetLayerIndex("Attack"),
             Mathf.Lerp(anim.GetLayerWeight(anim.GetLayerIndex("Attack")), lerpTarget, 0.3f));
 
         thrustVec = model.transform.forward * anim.GetFloat("attack1hADistance");
